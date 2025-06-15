@@ -1,6 +1,6 @@
 <template>
-    <el-button size="small" icon="Refresh" circle="true"></el-button>
-    <el-button size="small" icon="FullScreen" circle="true"></el-button>
+    <el-button size="small" icon="Refresh" circle="true" @click="refresh"></el-button>
+    <el-button size="small" icon="FullScreen" circle="true" @click="fullScreen"></el-button>
     <el-button size="small" icon="Setting" circle="true"></el-button>
     <img src="../../../../public/logo.png" style="width:24px; height: 24px;margin: 0px 10px;">
 
@@ -18,6 +18,24 @@
     </el-dropdown>
 </template>
 
+<script setup lang="ts">
+import userLayoutSettingStore from '@/store/modules/setting'
+
+let layoutSettingStore = userLayoutSettingStore();
+
+const refresh = ()=>{
+    layoutSettingStore.refresh = true;
+}
+
+const fullScreen = ()=>{
+    let isFull = document.fullscreenElement;
+    if (!isFull) {
+        document.documentElement.requestFullscreen();
+    } else {
+         document.exitFullscreen();
+    }
+}
+</script>
 
 <script lang="ts">
 export default {

@@ -3,13 +3,25 @@
         <router-view v-slot="{ Component }">
             <transition name="fade">
                 <!-- 渲染子路由 -->
-                <component :is="Component"></component>
+                <component :is="Component" v-if="flag"></component>
             </transition>
         </router-view>
     </div>
 </template>
 
 <script setup lang="ts">
+import userLayoutSettingStore from '@/store/modules/setting'
+import {watch, ref, nextTick} from "vue";
+let layoutSettingStore = userLayoutSettingStore();
+
+let flag = ref(true);
+watch(() => layoutSettingStore.refresh, () => {
+    flag.value = false;
+    nextTick(() => {
+        flag.value = true;
+        layoutSettingStore.refresh = false;
+    })
+})
 </script>
 
 <style scoped>
