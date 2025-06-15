@@ -1,12 +1,21 @@
 <template>
     <div class="logo">
         <img :src=setting.logo alt=""/>
-        <p>{{ setting.title }}</p>
+        <p v-show="!layoutSettingStore.fold">{{ setting.title }}</p>
     </div>
 </template>
 
 <script setup lang="ts">
 import setting from '../../setting';
+import userLayoutSettingStore from '@/store/modules/setting';
+
+let layoutSettingStore = userLayoutSettingStore();
+</script>
+
+<script lang="ts">
+export default {
+    name: 'Logo'
+}
 </script>
 
 <style scoped lang="scss">
