@@ -1,9 +1,9 @@
 // 创建用户相关的小仓库
 import { defineStore } from 'pinia';
-import { reqLogin } from '../../api/user';
+import { reqLogin, reqUserInfo } from '../../api/user';
 import type { LoginForm, LoginResponse } from '../../api/user/type';
 import type { UserState } from './type/type';
-import { SET_TOKEN, GET_TOKEN } from '../../utils/token';
+import { SET_TOKEN, GET_TOKEN, REMOVE_TOKEN } from '../../utils/token';
 import { constantRouter } from '@/router/routes';
 
 let useUserStore = defineStore('user', {
@@ -11,7 +11,9 @@ let useUserStore = defineStore('user', {
     state: (): UserState => {
         return {
             token: GET_TOKEN(), // 用户登录的token
-            menuRoutes: constantRouter // 仓库存储生成菜单需要数组
+            menuRoutes: constantRouter, // 仓库存储生成菜单需要数组
+            username:'',
+            avatar:''
         }
     },
     // 异步 | 逻辑的地方
@@ -29,6 +31,19 @@ let useUserStore = defineStore('user', {
                 // 登录失败
                 return Promise.reject(new Error('账号或密码不正确'));
             }
+        },
+        async userInfo(){
+            let result = await reqUserInfo();
+            if (result.code == 200) {
+                this.username = result.data.checkUser.username;
+                this.avatar = result.data.checkUser.avatar;
+            }
+        },
+        async userLogout(){
+            this.username = '';
+            this.avatar = '';
+            this.token = '';
+            REMOVE_TOKEN();
         }
     },
     getters: {

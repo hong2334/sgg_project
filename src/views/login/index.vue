@@ -26,11 +26,12 @@ import { User, Lock } from '@element-plus/icons-vue';
 import { reactive, ref } from 'vue';
 import useUserStore from '../../store/modules/user';
 import { ElNotification, type FormRules } from 'element-plus';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { getCurrentTimePeriod } from '@/utils/time';
 
 const userStore = useUserStore();
 const $router = useRouter();
+const $route = useRoute();
 let loading = ref(false);
 
 const loginForm = reactive({
@@ -47,7 +48,8 @@ const login = async () => {
         loading.value = true;
         await userStore.userLogin(loginForm);
         // 编程式导航跳转到首页
-        $router.push({ path: '/' });
+        let redirect:any = $route.query.redirect;
+        $router.push({ path: redirect|| '/' });
         ElNotification({
             title: `HI, ${getCurrentTimePeriod()}好`,
             message: `欢迎回来，${loginForm.username}`,
