@@ -83,7 +83,6 @@ let layoutSettingStore = userLayoutSettingStore();
         position: relative;
         width: calc(100% - $base-menu-width);
         height: calc(100% - $base-tabber-height);
-        background-color: rgb(205, 122, 122);
         left: $base-menu-width;
         top: $base-tabber-height;
         padding: 20px;

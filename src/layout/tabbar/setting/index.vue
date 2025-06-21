@@ -28,10 +28,10 @@ const userStore = useUserStore();
 let layoutSettingStore = userLayoutSettingStore();
 let $router = useRouter()
 let $route = useRoute()
-const logout = ()=>{
+const logout = async ()=>{
     // 向后端发出退出请求
     // 清楚用户相关的数据
-    userStore.userLogout();
+    await userStore.userLogout();
     // 跳转到登录页面
     $router.push({path:'/login',query:{redirect:$route.path}});
 }
